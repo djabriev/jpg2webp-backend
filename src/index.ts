@@ -1,40 +1,34 @@
-import { join } from 'path';
-import { existsSync, mkdirSync } from 'fs';
-import { nanoid } from 'nanoid';
-import { getCommandLineOptions } from './cli';
-import { convertFile, getFiles } from './file.utils';
+import { existsSync, mkdirSync } from 'node:fs';
+import { join } from 'node:path';
+import express from 'express';
+import morgan from 'morgan';
+import { router } from './routes/router.global';
+import { isDotEnvValid } from './env.schema';
+import { reportError } from './utils';
 
-const main = async () => {
-  const { args, opts } = getCommandLineOptions();
-  const inputDir = args[0];
-  const outputDir = opts['output'];
+const main = () => {
+  const morganMiddleware = morgan(process.env.MORGAN_CONF!);
+  const appPort = parseInt(process.env.port!);
+  const app = express();
 
-  if (!existsSync(inputDir)) {
-    console.error("Input directory doesn't exist!");
-    return;
-  }
+  app.use(morganMiddleware);
+  app.use(router);
 
-  if (!existsSync(outputDir)) {
-    mkdirSync(outputDir);
-  }
-
-  const timestamp = Date.now();
-  const files = await getFiles(inputDir);
-
-  for (const [fileIndex, file] of files.entries()) {
-    const pathToSave = join(
-      outputDir,
-      `${nanoid()}_${timestamp}_${fileIndex + 1}.webp`
-    );
-
-    await convertFile(file, pathToSave);
-
-    console.info(file, 'converted!');
-  }
+  app.listen(appPort, () => {
+    console.info('Server is running!');
+  });
 };
 
 process.on('uncaughtException', err => {
-  console.error(`Caught exception: ${err}`);
+  reportError(err);
 });
 
-main();
+if (isDotEnvValid()) {
+  const downloadDir = join(__dirname, '..', 'to_download');
+
+  if (!existsSync(downloadDir)) {
+    mkdirSync(downloadDir);
+  }
+
+  main();
+}
