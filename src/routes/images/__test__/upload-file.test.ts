@@ -56,8 +56,10 @@ describe('uploadFileController', () => {
   });
 
   /**
-   * Some bug with error handler middleware + multer
-   * This test passes in hand mode
+   * Some bug with error handler middleware + multer.
+   * This test passes in hand mode.
+   * But when run here, server responds with "read ECONNRESET" error.
+   * Help me fix this plz 😭.
    */
   // it('should handle incorrect file key in request body', async () => {
   //   const response = await request(app)
