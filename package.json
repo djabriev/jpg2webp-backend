@@ -1,7 +1,7 @@
 {
   "name": "png2web",
   "version": "1.0.0",
-  "description": "",
+  "description": "Image converter backend",
   "main": "src/index.ts",
   "engines": {
     "node": ">=20.17.0"
@@ -22,7 +22,6 @@
   "devDependencies": {
     "@babel/preset-typescript": "^7.24.7",
     "@dotenvx/dotenvx": "^1.14.1",
-    "@types/async": "^3.2.24",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.13",
     "@types/morgan": "^1.9.9",
@@ -38,8 +37,6 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "@types/multer": "^1.4.12",
-    "async": "^3.2.6",
-    "commander": "^12.1.0",
     "denque": "^2.1.0",
     "express": "^4.21.0",
     "joi": "^17.13.3",
