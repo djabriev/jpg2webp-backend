@@ -1,7 +1,7 @@
-import { existsSync, mkdirSync } from 'node:fs';
-import { join } from 'node:path';
 import express from 'express';
 import morgan from 'morgan';
+import { existsSync, mkdirSync } from 'node:fs';
+import { join } from 'node:path';
 import { router } from './routes/router.global';
 import { isDotEnvValid } from './env.schema';
 import { reportError } from './utils';

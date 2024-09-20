@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
-import multer, { MulterError } from 'multer';
+import { MulterError } from 'multer';
 import { JoiError, reportError, returnError } from '../utils';
 
 const injectSuccessStatus = (
-  req: Request,
+  _req: Request,
   res: Response,
   next: NextFunction
 ) => {
@@ -26,7 +26,7 @@ const errorHandlerMiddleware = (
   error: Error,
   _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   if (error instanceof JoiError || error instanceof MulterError) {
     res.status(400).send(returnError(error.message));

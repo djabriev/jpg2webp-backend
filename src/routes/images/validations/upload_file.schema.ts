@@ -1,8 +1,8 @@
+import Joi from 'joi';
 import { NextFunction, Request, Response } from 'express';
 import { join } from 'node:path';
 import { unlink } from 'node:fs/promises';
-import Joi from 'joi';
-import { JoiError } from '../../../utils';
+import { returnError } from '../../../utils';
 
 const imageMimeTypes = process.env.UPLOAD_FILE_TYPES!.split(' ');
 const convertToFormats = process.env.CONVERT_FILE_TYPES!.split(' ');
@@ -43,7 +43,7 @@ const uploadFileValidation = (
     unlink(join(rootDir, req.file.path));
   }
 
-  throw new JoiError(result.error.message);
+  return res.status(400).json(returnError(result.error.message));
 };
 
 export { uploadFileValidation };

@@ -9,30 +9,22 @@ app.use(router);
 
 const supportedFormats = process.env.CONVERT_FILE_TYPES!.split(' ');
 
-jest.mock('fs/promises', () => ({
-  unlink: jest.fn(),
-}));
-
-beforeAll(() => {
-  if (supportedFormats.length === 0 || supportedFormats[0].trim() === '') {
-    throw Error('Supported formats env variable is empty!');
-  }
-});
-
 describe('uploadFileController', () => {
+  let fileId = '';
+
   it('should upload a file', async () => {
     const response = await request(app)
       .post('/images/upload')
       .attach('photo', join(__dirname, 'images', 'lloyd.png'))
       .field('format_to', supportedFormats[0]);
 
-    expect(response.body).toEqual({ status: 'ok' });
+    expect(response.body).toHaveProperty('file_id');
+    fileId = response.body.file_id;
   });
 
   it('should handle missing file', async () => {
     const response = await request(app)
       .post('/images/upload')
-      //.attach('photo', join(__dirname, 'images', 'lloyd.png'))
       .field('format_to', 'webp');
 
     expect(response.body).toEqual({

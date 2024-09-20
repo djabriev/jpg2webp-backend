@@ -1,6 +1,6 @@
 node_modules
 build
 .vscode
-output
-input_folder
+to_download
+uploads
 .env
