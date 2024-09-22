@@ -1,5 +1,6 @@
 import express from 'express';
 import multer from 'multer';
+import { join } from 'path';
 import { statusRequestValidation } from './validations/file_status.schema';
 import { uploadFileValidation } from './validations/upload_file.schema';
 import { uploadFileController } from './controllers/upload_file.controller';
@@ -7,7 +8,7 @@ import { fileStatusController } from './controllers/file_status.controller';
 import { downloadFileRequestValidation } from './validations/download_file.schema';
 import { downloadFileController } from './controllers/download_file.controller';
 
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: join(__dirname, '..', '..', '..', 'uploads') });
 const router = express.Router();
 
 router.post(

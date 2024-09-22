@@ -40,7 +40,7 @@ const uploadFileValidation = (
   }
 
   if (req.file) {
-    unlink(join(rootDir, req.file.path));
+    unlink(req.file.path);
   }
 
   return res.status(400).json(returnError(result.error.message));

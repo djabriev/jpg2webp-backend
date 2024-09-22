@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
-import { filesQueue } from '../utils/queue.utils';
-import { processFileQueue } from '../utils/file.utils';
 import { nanoid } from 'nanoid';
 import { setStatus } from '../utils/status.utils';
+import { addImageToQ } from '../worker';
 
 const uploadFileController = async (req: Request, res: Response) => {
   const fileId = nanoid();
@@ -12,13 +11,13 @@ const uploadFileController = async (req: Request, res: Response) => {
 
   res.status(200).json({ file_id: fileId });
 
-  const isFilesQueueEmpty = filesQueue.length === 0;
+  const data = {
+    fileName: req.file!.filename,
+    fileId: fileId,
+    formatTo: req.body.format_to,
+  };
 
-  filesQueue.push([req.file!, req.body.format_to, fileId]);
-
-  if (isFilesQueueEmpty) {
-    processFileQueue(filesQueue);
-  }
+  await addImageToQ(data);
 };
 
 export { uploadFileController };

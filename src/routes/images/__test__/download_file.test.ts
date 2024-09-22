@@ -18,12 +18,12 @@ beforeAll(async () => {
 
   expect(response.body).toHaveProperty('file_id');
   fileId = response.body.file_id;
+
+  await new Promise(resolve => setTimeout(resolve, 3000));
 });
 
 describe('downloadFileController', () => {
   it('should download a file', async () => {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
     const response = await request(app).get(`/images/${fileId}`);
 
     expect(response.body).toBeInstanceOf(Buffer);
