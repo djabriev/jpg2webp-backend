@@ -17,7 +17,9 @@ const uploadFileController = async (req: Request, res: Response) => {
     formatTo: req.body.format_to,
   };
 
-  await addImageToQ(data);
+  const isPremiumWorker = req.userId !== undefined;
+
+  await addImageToQ(data, isPremiumWorker ? 1 : 0);
 };
 
 export { uploadFileController };

@@ -3,7 +3,11 @@
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "build",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
+  "files": [
+    "src/types/express/index.d.ts"
+  ],
   "include": ["src/**/*.ts", "test/**/*.ts"]
 }

@@ -4,7 +4,7 @@ import 'dotenv/config';
 import { join } from 'path';
 import { router } from '../../router.global';
 
-const supportedFormats = process.env.CONVERT_FILE_TYPES!.split(' ');
+const supportedFormats = process.env.FREE_CONVERT_FILE_TYPES!.split(' ');
 
 const app = express();
 app.use(router);
@@ -14,7 +14,7 @@ let fileId = '';
 beforeAll(async () => {
   const response = await request(app)
     .post('/images/upload')
-    .attach('photo', join(__dirname, 'images', 'lloyd.png'))
+    .attach('photo', join(__dirname, 'images', 'lloyd.jpg'))
     .field('format_to', supportedFormats[0]);
 
   expect(response.body).toHaveProperty('file_id');

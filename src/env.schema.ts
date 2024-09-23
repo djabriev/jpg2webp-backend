@@ -15,8 +15,12 @@ const schema = Joi.object({
   CONVERT_FILE_TYPES: Joi.string().required(),
   FREE_CONVERT_FILE_TYPES: Joi.string().required(),
   UPLOAD_FILE_TYPES: Joi.string().required(),
+  FREE_UPLOAD_FILE_TYPES: Joi.string().required(),
   UPLOAD_FILE_LIMIT: Joi.number().positive().required(),
   MAX_CONCURRENT_IMAGES: Joi.number().positive().required(),
+  SUPABASE_URL: Joi.string().required(),
+  SUPABASE_PUBLIC_KEY: Joi.string().required(),
+  SUPABASE_PRIVATE_KEY: Joi.string().required(),
 }).unknown(true);
 
 const isDotEnvValid = () => {

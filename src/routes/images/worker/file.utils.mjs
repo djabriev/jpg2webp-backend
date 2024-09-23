@@ -1,7 +1,7 @@
 import sharp from 'sharp';
 import { fileURLToPath } from 'url';
 import { join, dirname } from 'node:path';
-import { unlink } from 'node:fs/promises';
+import { unlink, readFile } from 'node:fs/promises';
 import { setStatus } from './worker.mjs';
 
 const rootDirAt = join(
@@ -16,8 +16,10 @@ const convertFilePromise = async (file, pathToSave, format_to) => {
   const toFormat = format_to;
 
   try {
-    await sharp(file).toFormat(toFormat).toFile(pathToSave);
-  } catch (err) {
+    const data = await readFile(file);
+
+    await sharp(data).toFormat(toFormat).toFile(pathToSave);
+  } catch {
     throw Error('Error reading/converting file!');
   }
 
@@ -38,7 +40,7 @@ const createConvertFilePromise = queue => {
         message: 'ready',
         fileName: `${fileName}.${formatTo}`,
       });
-
+      
       await unlink(saveFrom);
     })
     .catch(() => {
