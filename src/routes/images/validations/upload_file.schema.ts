@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import { NextFunction, Request, Response } from 'express';
 import { unlink } from 'node:fs/promises';
-import { returnError } from '../../../utils';
+import { CustomError } from '../../../utils';
 
 const imageMimeTypes = process.env.FREE_UPLOAD_FILE_TYPES!.split(' ');
 const convertToFormats = process.env.FREE_CONVERT_FILE_TYPES!.split(' ');
@@ -46,7 +46,7 @@ const uploadFileValidation = (
     unlink(req.file.path);
   }
 
-  return res.status(400).json(returnError(result.error.message));
+  throw new CustomError(result.error.message);
 };
 
 export { uploadFileValidation };

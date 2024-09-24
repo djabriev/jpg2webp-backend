@@ -7,12 +7,14 @@ import { uploadFileController } from './controllers/upload_file.controller';
 import { fileStatusController } from './controllers/file_status.controller';
 import { downloadFileRequestValidation } from './validations/download_file.schema';
 import { downloadFileController } from './controllers/download_file.controller';
-import { checkAuth } from '../auth/middlewares';
+import { fileUploadLimiter } from './middlewares/fileUploadLimiter.middleware';
+import { checkAuth } from '../auth/middlewares/checkAuth.middleware';
 
 const upload = multer({ dest: join(__dirname, '..', '..', '..', 'uploads') });
 const router = express.Router();
 
 router.use(checkAuth);
+router.use(fileUploadLimiter);
 
 router.post(
   '/upload',

@@ -1,6 +1,6 @@
+import 'dotenv/config';
 import request from 'supertest';
 import express from 'express';
-import 'dotenv/config';
 import { join } from 'path';
 import { router } from '../../router.global';
 
@@ -38,19 +38,4 @@ describe('uploadFileController', () => {
 
     expect(response.body).toHaveProperty('error');
   });
-
-  /**
-   * Some bug with error handler middleware + multer.
-   * This test passes in hand mode.
-   * But when run here, server responds with "read ECONNRESET" error.
-   * Help me fix this plz 😭.
-   */
-  // it('should handle incorrect file key in request body', async () => {
-  //   const response = await request(app)
-  //     .post('/images/upload')
-  //     .attach('IMAGEphoto', join(__dirname, 'images', 'lloyd.jpg'))
-  //     .field('format_to', supportedFormats[0]);
-
-  //     expect(response.status).toEqual(400);
-  // });
 });

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { JwtPayload, verify } from 'jsonwebtoken';
+import { CustomError } from '../../../utils';
 
 const checkAuth = (req: Request, res: Response, next: NextFunction) => {
   const token = req.header('Authorization');
@@ -15,7 +16,7 @@ const checkAuth = (req: Request, res: Response, next: NextFunction) => {
     ) as JwtPayload;
     req.userId = decoded.sub;
   } catch {
-    /* Invalid token */
+    throw new CustomError('Invalid Authorization');
   }
 
   next();

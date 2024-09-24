@@ -1,7 +1,8 @@
 import 'dotenv/config';
 import express, { Request, Response, NextFunction } from 'express';
 import { router } from '../../router.global';
-import { checkAuth } from '../middlewares';
+import { checkAuth } from '../middlewares/checkAuth.middleware';
+import { errorHandlerMiddleware } from '../../errorHandler.middleware';
 
 const app = express();
 app.use(router);
@@ -22,9 +23,9 @@ describe('checkAuth middleware', () => {
     next = jest.fn();
   });
 
-  it('should NOT put userId in request', () => {
-    checkAuth(req as Request, res as Response, next);
-
-    expect(req.userId).toBeUndefined();
+  it('should return invalid Authorization error', () => {
+    expect(() => checkAuth(req as Request, res as Response, next)).toThrow(
+      'Invalid Authorization'
+    );
   });
 });

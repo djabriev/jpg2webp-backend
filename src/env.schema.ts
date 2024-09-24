@@ -21,6 +21,10 @@ const schema = Joi.object({
   SUPABASE_URL: Joi.string().required(),
   SUPABASE_PUBLIC_KEY: Joi.string().required(),
   SUPABASE_PRIVATE_KEY: Joi.string().required(),
+  FREE_UPLOAD_LIMIT: Joi.number().positive().required(),
+  FREE_UPLOAD_LIMIT_PERIOD_DAYS: Joi.number().min(0).required(),
+  UPLOAD_LIMIT: Joi.number().positive().required(),
+  UPLOAD_LIMIT_PERIOD_DAYS: Joi.number().min(0).required(),
 }).unknown(true);
 
 const isDotEnvValid = () => {

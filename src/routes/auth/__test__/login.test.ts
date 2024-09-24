@@ -1,17 +1,32 @@
-import request from 'supertest';
-import express from 'express';
 import 'dotenv/config';
+import express, { Request, Response } from 'express';
 import { router } from '../../router.global';
+import { loginController } from '../controllers/login.controller';
 
 const app = express();
 app.use(router);
 
 describe('loginController', () => {
+  let req: Partial<Request>;
+  let res: Partial<Response>;
+
+  beforeEach(() => {
+    res = {
+      status: jest.fn(),
+      json: jest.fn(),
+    };
+  });
+
   it('should return invalid login data error', async () => {
-    const user = { email: 'test@email.com', password: 'fsdfsdfdsfsdf' };
+    req = {
+      header: jest.fn(),
+      body: { email: 'test@email.com', password: 'fsdfsdfdsfsdf' },
+    };
 
-    const response = await request(app).post('/auth/login').send(user);
+    const loginAttempt = async () => {
+      await loginController(req as Request, res as Response);
+    };
 
-    expect(response.body).toHaveProperty('error');
+    await expect(loginAttempt).rejects.toThrow('Invalid login credentials');
   });
 });

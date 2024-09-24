@@ -1,6 +1,6 @@
 import Joi, { CustomHelpers } from 'joi';
 import { NextFunction, Request, Response } from 'express';
-import { returnError } from '../../../utils';
+import { CustomError } from '../../../utils';
 
 const schema = Joi.object({
   body: Joi.object({
@@ -22,7 +22,7 @@ const loginRequestValidation = (
     return next();
   }
 
-  return res.status(400).json(returnError(result.error.message));
+  throw new CustomError(result.error.message);
 };
 
 export { loginRequestValidation };

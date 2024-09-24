@@ -1,6 +1,6 @@
 import Joi, { CustomHelpers } from 'joi';
 import { NextFunction, Request, Response } from 'express';
-import { returnError } from '../../../utils';
+import { CustomError } from '../../../utils';
 import { checkStatusExistance } from '../utils/status.utils';
 
 const validateFileIdExists = (value: string, helpers: CustomHelpers) => {
@@ -35,7 +35,7 @@ const downloadFileRequestValidation = (
     return next();
   }
 
-  return res.status(400).json(returnError(result.error.message));
+  throw new CustomError(result.error.message);
 };
 
 export { downloadFileRequestValidation };
